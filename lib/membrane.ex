@@ -61,9 +61,31 @@ defmodule State do
   """
 
   @typedoc """
+  Mitosis: This is where the cell actually partitions the two copies of the genetic material into the two daughter cells.
+  After M phase completes, cell division occurs and two cells are left, and the cell cycle can begin again.
+  """
+  @type mitosis_t :: term
+
+  @typedoc """
+  Cell cycle is the name we give the process through which cells replicate and make two new cells.
+  Cell cycle has different stages called G1, S, G2, and M. G1 is the stage where the cell is preparing to divide.
+  To do this, it then moves into the S phase where the cell copies all the DNA.
+  So, S stands for DNA synthesis. After the DNA is copied and there's a complete extra set of all the genetic material,
+  the cell moves into the G2 stage, where it organizes and condenses the genetic material,
+  or starts to condense the genetic material, and prepares to divide.
+  """
+  @type interphase_t :: :g1_stage | :s_stage | :g2_stage
+
+  @typedoc """
+  Healthy stages in a cell's lifecycle.
+  """
+  @type healthy_stages_t :: mitosis_t | interphase_t
+
+  @typedoc """
   Mutation is meta data on a cell which gives its state.
   """
   @type mutation_t :: %{:cell_id => Cell.cell_id_t, :state_metadata => term, :memory => struct}
+
 end
 
 defmodule StateInterface do
