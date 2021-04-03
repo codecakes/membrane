@@ -3,6 +3,16 @@
 Skunkwork for Distributed Cellular AI systems. 
 Could be something, could nothing.
 
+Cellular interface: Skeletal API that exposes structures to build intelligent information systems based on Cellular structures.
+  Vocabulary: Receptors, signals, environment, mutation (driven by external environment)
+  Membrane was inspired by the podcast "Under The Skin" with Russel Brand featuring Bruce Lipton.
+  Link: https://www.youtube.com/watch?v=6XmhVB8AIt0&ab_channel=RussellBrand
+  
+  It speaks about the remarkable cellular structure:
+  a. membranes: they are receptors to environment and pass the message to nucleus.
+  b. nucleus: Reproduction center i.e. gonads of the cell: this is what uses the cell culture based on information from
+  the skin(receptors) of the cell i.e. membranes and generates information.
+
 
 ## Installation
 
