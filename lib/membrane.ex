@@ -49,6 +49,8 @@ defmodule CellInterface do
   """
   @callback get_cell :: (cell_id :: Cell.cell_id_t -> cell :: Cell.cell_t) | (cell_id :: Cell.cell_id_t -> none)
 
+  @callback take_reception :: (%{:environment_data =>  environment_data :: struct, :cell_id => cell_id :: Cell.cell_id_t} -> cell :: Cell.cell_t)
+
 end
 
 
@@ -113,7 +115,6 @@ defmodule Membrane do
   """
 
   # TODO(codecakes): impl Interfaces
-  # @behaviour CellInterface
   # @behaviour StateInterface
 
   @doc """
