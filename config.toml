@@ -8,9 +8,16 @@ paginate = 2
 copyright = ""
 licenselink = "https://github.com/codecakes/membrane/blob/develop/LICENSE"
 enableRobotsTXT = true
+
+
 [[menu.icons]]
 	name = "GitHub"
-	post = "<img src=\"/images/github.png\""
+  post = "<img src=\"github-logo.png\">"
+	url = "https://github.com/codecakes/membrane"
+
+[[menu.main]]
+	name = "GitHub"
+	post = "<img src=\"github-logo.png\">"
 	url = "https://github.com/codecakes/membrane"
 
 [params]
