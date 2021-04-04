@@ -29,7 +29,9 @@ defmodule Cell do
   Defines the Cell.
   """
   @type cell_t :: %Cell{cell_id: cell_id_t, receptor: receptor_t, signal: signal_t, nucleus: nucleus_t}
+
 end
+
 
 defmodule CellInterface do
   @moduledoc false
@@ -49,6 +51,9 @@ defmodule CellInterface do
   """
   @callback get_cell :: (cell_id :: Cell.cell_id_t -> cell :: Cell.cell_t) | (cell_id :: Cell.cell_id_t -> none)
 
+  @doc """
+  Input to cell interface via receptor.
+  """
   @callback take_reception :: (%{:environment_data =>  environment_data :: struct, :cell_id => cell_id :: Cell.cell_id_t} -> cell :: Cell.cell_t)
 
 end
@@ -58,13 +63,32 @@ defmodule State do
   @moduledoc """
   A state provides all information about the cell and its mutations.
   Cells may die but states persist. States are eternal transactional logbook for a each cell's journey.
+  See: https://www.genome.gov/genetics-glossary/Cell-Cycle
   """
+
+  @typedoc """
+  Mutation is meta data on a cell which gives its state.
+  """
+  @type mutation_t :: %{:cell_id => Cell.cell_id_t, :mutation_metadata => term}
+
+  @type stage_t :: %{
+    :cell_id => Cell.cell_id_t,
+    :memory => memory :: struct,
+    :stage_metadata => stage_metadata :: struct,
+    :mutation => mutation :: mutation_t | none
+  }
 
   @typedoc """
   Mitosis: This is where the cell actually partitions the two copies of the genetic material into the two daughter cells.
   After M phase completes, cell division occurs and two cells are left, and the cell cycle can begin again.
   """
-  @type mitosis_t :: term
+  @type mitosis_t :: stage_t
+
+  @type g1_stage_t :: stage_t
+
+  @type s_stage_t :: stage_t
+
+  @type g2_stage_t :: stage_t
 
   @typedoc """
   Cell cycle is the name we give the process through which cells replicate and make two new cells.
@@ -74,19 +98,27 @@ defmodule State do
   the cell moves into the G2 stage, where it organizes and condenses the genetic material,
   or starts to condense the genetic material, and prepares to divide.
   """
-  @type interphase_t :: :g1_stage | :s_stage | :g2_stage
+  @type interphase_t :: g1_stage_t | :s_stage_t | :g2_stage_t
 
   @typedoc """
   Healthy stages in a cell's lifecycle.
   """
-  @type healthy_stages_t :: mitosis_t | interphase_t
+  @type healthy_stage_t :: mitosis_t | interphase_t
 
-  @typedoc """
-  Mutation is meta data on a cell which gives its state.
-  """
-  @type mutation_t :: %{:cell_id => Cell.cell_id_t, :state_metadata => term, :memory => struct}
+  @type kill_stage_t :: stage_t
+
+  @type cell_stages_t :: list(stage_t)
+
+  @type reproduce_t :: (%{
+    :cell_id => cell_id :: Cell.cell_id_t,
+    :cell_stages => cell_stages :: cell_stages_t,
+    } -> {
+      %{:daughter_cell => daughter_cell :: Cell.cell_t, :cell_stage => cell_stage :: stage_t},
+      %{:daughter_cell => daughter_cell :: Cell.cell_t, :cell_stage => cell_stage :: stage_t},
+      })
 
 end
+
 
 defmodule StateInterface do
   @moduledoc false
@@ -99,7 +131,7 @@ defmodule StateInterface do
   @doc """
   Gets a state by cell id detailing it's mutations meta data.
   """
-  @callback get :: (cell_id :: Cell.cell_id_t -> mutations :: list(State.mutation_t))
+  @callback get :: (cell_id :: Cell.cell_id_t -> cell_stages :: State.cell_stages_t)
 
 end
 
@@ -152,6 +184,7 @@ defmodule Membrane do
     :world
   end
 end
+
 
 defmodule Membrane.CLI do
   @moduledoc false

@@ -26,6 +26,8 @@ Fundamentally it starts with defining a cell:
 
 ```
 
+"..When you look at yourself as a single entity, that is the illusion. That truth, which is the jumpy part, is that we are skin-covered Petri dishes inside of which are 50 trillion-plus cells. Inside the body is the original culture medium called blood.."
+-- [Bruce Lipton](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6438088/)
 ## Installation
 
 If [available in Hex](https://hex.pm/docs/publish), the package can be installed
