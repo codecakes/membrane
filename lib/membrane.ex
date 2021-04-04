@@ -54,7 +54,7 @@ defmodule CellInterface do
   @doc """
   Input to cell interface via receptor.
   """
-  @callback take_reception :: (%{:environment_data =>  environment_data :: struct, :cell_id => cell_id :: Cell.cell_id_t} -> cell :: Cell.cell_t)
+  @callback take_reception :: (%{:reception_data =>  reception_data :: struct, :cell_id => cell_id :: Cell.cell_id_t} -> cell :: Cell.cell_t)
 
 end
 
@@ -64,13 +64,18 @@ defmodule State do
   A state provides all information about the cell and its mutations.
   Cells may die but states persist. States are eternal transactional logbook for a each cell's journey.
   See: https://www.genome.gov/genetics-glossary/Cell-Cycle
+
+  Cells use special proteins and checkpoint signaling systems to ensure that the cell cycle progresses properly.
   """
 
   @typedoc """
-  Mutation is meta data on a cell which gives its state.
+  Mutation meta data on a cell.
   """
   @type mutation_t :: %{:cell_id => Cell.cell_id_t, :mutation_metadata => term}
 
+  @typedoc """
+  A stage is a transactional snapshot of a cell's memories, metadata, mutation data.
+  """
   @type stage_t :: %{
     :cell_id => Cell.cell_id_t,
     :memory => memory :: struct,
@@ -84,10 +89,20 @@ defmodule State do
   """
   @type mitosis_t :: stage_t
 
+  @typedoc """
+  G1 is the stage where the cell is preparing to divide.
+  """
   @type g1_stage_t :: stage_t
 
+  @typedoc """
+  S phase where the cell copies all the DNA. S stands for DNA synthesis.
+  """
   @type s_stage_t :: stage_t
 
+  @typedoc """
+  G2 stage, where cell organizes and condenses the genetic material
+  and prepares to divide.
+  """
   @type g2_stage_t :: stage_t
 
   @typedoc """
@@ -101,14 +116,30 @@ defmodule State do
   @type interphase_t :: g1_stage_t | :s_stage_t | :g2_stage_t
 
   @typedoc """
-  Healthy stages in a cell's lifecycle.
+  Healthy stage in a cell's lifecycle.
   """
   @type healthy_stage_t :: mitosis_t | interphase_t
 
+  @typedoc """
+  Unhealthy stage in a cell's lifecycle.
+  This will generally lead to cell getting destroyed.
+  """
   @type kill_stage_t :: stage_t
 
+  @typedoc """
+  A list of chronological cell stages.
+  """
   @type cell_stages_t :: list(stage_t)
 
+  @typedoc """
+  Checkpoints at the end of G1 and at the beginning of G2 are designed to assess
+  DNA for damage before and after S phase.
+  """
+  @type check_stage_t :: (stage :: stage_t -> assessment)
+
+  @typedoc """
+  Reproduces a cell into two daughter cells replicating from the original copy.
+  """
   @type reproduce_t :: (%{
     :cell_id => cell_id :: Cell.cell_id_t,
     :cell_stages => cell_stages :: cell_stages_t,
