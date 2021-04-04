@@ -12,12 +12,12 @@ enableRobotsTXT = true
 
 [[menu.icons]]
 	name = "GitHub"
-  post = "<img src=\"github-logo.png\">"
+  post = "<img src=\"/github-logo.png\">"
 	url = "https://github.com/codecakes/membrane"
 
 [[menu.main]]
 	name = "GitHub"
-	post = "<img src=\"github-logo.png\">"
+	post = "<img src=\"/github-logo.png\">"
 	url = "https://github.com/codecakes/membrane"
 
 [params]
