@@ -135,7 +135,15 @@ defmodule State do
   Checkpoints at the end of G1 and at the beginning of G2 are designed to assess
   DNA for damage before and after S phase.
   """
-  @type check_stage_t :: (stage :: stage_t -> assessment)
+  @type check_stage_t :: (stage :: stage_t -> assessment :: boolean)
+
+  @typedoc """
+  A cell with its initial stage.
+  """
+  @type new_cell_state_t :: %{
+    :daughter_cell => daughter_cell :: Cell.cell_t,
+    :cell_stage => cell_stage :: stage_t
+  }
 
   @typedoc """
   Reproduces a cell into two daughter cells replicating from the original copy.
@@ -143,10 +151,7 @@ defmodule State do
   @type reproduce_t :: (%{
     :cell_id => cell_id :: Cell.cell_id_t,
     :cell_stages => cell_stages :: cell_stages_t,
-    } -> {
-      %{:daughter_cell => daughter_cell :: Cell.cell_t, :cell_stage => cell_stage :: stage_t},
-      %{:daughter_cell => daughter_cell :: Cell.cell_t, :cell_stage => cell_stage :: stage_t},
-      })
+    } -> {new_cell_state_ :: new_cell_state_t, new_cell_state :: new_cell_state_t})
 
 end
 
