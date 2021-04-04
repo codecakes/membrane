@@ -1,4 +1,4 @@
-baseURL = "https://codecakes.github.io"
+baseURL = "https://codecakes.github.io/membrane/"
 languageCode = "en-us"
 title = "Membrane"
 theme = "strange-case"
