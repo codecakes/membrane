@@ -45,9 +45,6 @@ A Cell's lifecycle then becomes honing ML models, better training and shaving of
 @typedoc """
   Reproduces a cell into two daughter cells replicating from the original copy.
   """
-@typedoc """
-  Reproduces a cell into two daughter cells replicating from the original copy.
-  """
 @type reproduce_t :: (%{
   :cell_id => cell_id :: Cell.cell_id_t,
   :cell_stages => cell_stages :: cell_stages_t,
